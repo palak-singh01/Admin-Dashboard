@@ -1,0 +1,85 @@
+<%- include('layout') %>
+
+
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </div>
+    <div>
+      <h1 class="header-title">Admin Dashboard</h1>
+      <p class="header-subtitle">Manage your inventory with style</p>
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
+
+  <section class="glass-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </div>
+        <h2 class="form-title">Add New Item</h2>
+      </div>
+
+      <%- include('forms/form') %>
+    </div>
+  </section>
+
+
+  <section class="glass-panel">
+    <div class="table-container">
+      <div class="table-header">
+        <h2 class="table-title">Stored Items</h2>
+        <p class="table-subtitle"><%= items.length %> items total</p>
+      </div>
+
+      <% if (items.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <h3 class="empty-title">No items found</h3>
+          <p class="empty-text">Add your first item to get started</p>
+        </div>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% items.forEach(item => { %>
+              <tr>
+                <td><span class="item-name"><%= item.name %></span></td>
+                <td><span class="item-description"><%= item.description %></span></td>
+                <td><span class="item-price">$<%= item.price.toFixed(2) %></span></td>
+                <td><span class="item-quantity"><%= item.quantity %></span></td>
+                <td><span class="item-date"><%= item.createdAt.toLocaleString() %></span></td>
+                <td>
+                  <form action="/items/<%= item._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="btn-delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
